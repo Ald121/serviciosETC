@@ -14,8 +14,13 @@ class User extends Authenticatable
      *
      * @var array
      */
+    // public $connection='usuarioconex';
+    protected $primaryKey='id_usuario';
+    protected $table='usuarios';
+    public $timestamps=false;
+    public $incrementing=false;
     protected $fillable = [
-        'name', 'email', 'password',
+        'id_usuario', 'usuario', 'contrasena',
     ];
 
     /**
@@ -23,7 +28,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+    // protected $hidden = [
+    //     'password', 'remember_token',
+    // ];
+
+    public function getAuthPassword() {
+    return $this->contrasena;
+    }
 }
