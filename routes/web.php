@@ -12,7 +12,17 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('email_crear_sala');
 });
 
-Route::get('Login','loginController@Acceso');
+Route::group(['middleware' => 'cors'], function(){
+	Route::post('Login','loginController@Acceso');
+
+	Route::group(['middleware' => ['jwt.auth']], function ()
+        {
+		Route::post('getRooms','roomsController@getRooms');
+		Route::post('getAmigos','usuariosController@getAmigos');
+		Route::post('addRoom','roomsController@addRoom');
+		});
+});
+

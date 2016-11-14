@@ -28,9 +28,9 @@ class User extends Authenticatable
      *
      * @var array
      */
-    // protected $hidden = [
-    //     'password', 'remember_token',
-    // ];
+    protected $hidden = [
+        'contrasena',
+    ];
 
     public function getAuthPassword() {
     return $this->contrasena;

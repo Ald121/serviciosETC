@@ -16,20 +16,20 @@ class loginController extends Controller
     	$usuarios=new User(); 
         $datos=$usuarios->select('estado')->where('usuario',$request->usuario)->first();
         if ($datos['estado']=='INACTIVO') {
-        	return response()->json(["error"=>'sin-activacion']);
+        	return response()->json(["respuesta"=>false,"error"=>'sin-activacion']);
         }
 
         $datos=$usuarios->select('contrasena')->where('usuario',$request->usuario)->first();
         $checkpass=Hash::check($request->pass, $datos['contrasena']);
 
         if ($checkpass) {
-         $datos = $usuarios->select('id_usuario','usuario')->where('usuario',$request->usuario)->first();
+         $datos = $usuarios->select('id_usuario','nombres','apellidos','tipo_user')->where('usuario',$request->usuario)->first();
          $token = JWTAuth::fromUser($datos);
-         return response()->json(compact('token'));
+         $ip=$request->ip();
+         return response()->json(["respuesta"=>true,'datosUser'=>$datos,'token'=>$token]);
         }else{
-        	return response()->json(["error"=>'usuario-pass-fail']);
+        	return response()->json(["respuesta"=>false,"error"=>'usuario-pass-fail']);
         }
     	// return response()->json(["respuesta"=>bcrypt($request->pass)]);
-           
     }
 }
