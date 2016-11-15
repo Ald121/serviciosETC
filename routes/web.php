@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('email_crear_sala');
+    return view('welcome');
 });
 
 Route::group(['middleware' => 'cors'], function(){
@@ -23,6 +23,7 @@ Route::group(['middleware' => 'cors'], function(){
 		Route::post('getRooms','roomsController@getRooms');
 		Route::post('getAmigos','usuariosController@getAmigos');
 		Route::post('addRoom','roomsController@addRoom');
+		Route::post('addAmigo','usuariosController@addAmigo');
 		});
 });
 

@@ -23,7 +23,7 @@ class loginController extends Controller
         $checkpass=Hash::check($request->pass, $datos['contrasena']);
 
         if ($checkpass) {
-         $datos = $usuarios->select('id_usuario','nombres','apellidos','tipo_user')->where('usuario',$request->usuario)->first();
+         $datos = $usuarios->select('id_usuario','nombres','apellidos','tipo_user','foto')->where('usuario',$request->usuario)->first();
          $token = JWTAuth::fromUser($datos);
          $ip=$request->ip();
          return response()->json(["respuesta"=>true,'datosUser'=>$datos,'token'=>$token]);

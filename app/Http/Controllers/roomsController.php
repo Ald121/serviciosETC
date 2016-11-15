@@ -24,7 +24,7 @@ class roomsController extends Controller
 	}
 
     public function getRooms(Request $request){
-    	$currentPage = $request->pagina_actual;
+    	$currentPage = $request->page;
    		$limit = $request->limit;
 
     	$temas=DB::table('temas')->where('id_usuario',$this->user['id_usuario'])->get();
@@ -33,16 +33,16 @@ class roomsController extends Controller
     }
 
     public function addRoom(Request $request){
-        $clave_sala=$this->funciones->generarPass();
-        $saludo = ($request->input('datos_sala')['saludo']=='') ? "Un amigo te ha invitado": $request->input('datos_sala')['saludo'];
-        $cuerpo=($request->input('datos_sala')['cuerpo']=='') ? "A continuación se detallan los datos para ingresar a la video conferencia":$request->input('datos_sala')['cuerpo'];
-        DB::table('temas')->insert(['nombre_tema' => $request->input('datos_sala')['nombre_tema'], 'fecha' => Carbon::now()->toDateString(), 'hora' => Carbon::now()->format('H:i'), 'pass_sala' => 'NNN', 'estado' =>'ENESPERA','saludo'=>$saludo,'cuerpo'=>$cuerpo,'id_usuario'=>$this->user['id_usuario']]);
+        $saludo = ($request->has('saludo')) ? $request->input('saludo') : "Un amigo te ha invitado";
+        $cuerpo=($request->has('cuerpo')) ? $request->input('cuerpo'):"A continuación se detallan los datos para ingresar a la video conferencia";
+        DB::table('temas')->insert(['nombre_tema' => $request->input('nombre_tema'), 'fecha' => Carbon::now()->toDateString(), 'hora' => Carbon::now()->format('H:i'), 'pass_sala' => 'N3xQxx@99', 'estado' =>'ENESPERA','saludo'=>$saludo,'cuerpo'=>$cuerpo,'id_usuario'=>$this->user['id_usuario']]);
         foreach ($request->invitados as $key => $value) {
-            $data=['correo'=>$value['email'],'nombre_user'=>$value['nombres'].' '.$value['apellidos'],'saludo'=>$saludo,'cuerpo'=>$cuerpo,'pass_sala'=>$clave_sala,'tema'=>$request->input('datos_sala')['nombre_tema']];
-           $this->enviar_credenciales_sala($data);
+            $clave_sala=$this->funciones->generarPass();
+            DB::table('login_sala')->insert(['pass_user' => $clave_sala, 'id_usuario' => $value['id_usuario'], 'nombre_sala' => $request->input('nombre_tema')]);
+            $data=['correo'=>$value['email'],'nombre_user'=>$value['nombres'].' '.$value['apellidos'],'saludo'=>$saludo,'cuerpo'=>$cuerpo,'pass_sala'=>$clave_sala,'tema'=>$request->input('nombre_tema')];
+           // $this->enviar_credenciales_sala($data);
         }
-
-        return response()->json(['respuesta'=>$request->input('datos_sala')['cuerpo']]);
+        return response()->json(['respuesta'=>true]);
     }
 
     public function enviar_credenciales_sala($data){
