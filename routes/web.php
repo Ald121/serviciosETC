@@ -24,6 +24,9 @@ Route::group(['middleware' => 'cors'], function(){
 		Route::post('getAmigos','usuariosController@getAmigos');
 		Route::post('addRoom','roomsController@addRoom');
 		Route::post('addAmigo','usuariosController@addAmigo');
+		Route::post('getRoomsCliente','roomsController@getRoomsCliente');
+		Route::post('getEstadoRoom','roomsController@getEstadoRoom');
+		
 		});
 });
 
