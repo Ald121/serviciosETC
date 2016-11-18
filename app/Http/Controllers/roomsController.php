@@ -85,4 +85,25 @@ class roomsController extends Controller
 
         return response()->json(['respuesta'=>$temas->estado,'hash'=>$temas->hash]);
     }
+
+    public function startRoom(Request $request){
+        DB::table('temas')->where('idtemas',$request->idtemas)->where('id_usuario',$this->user['id_usuario'])->update(['estado'=>'ACTIVO']);
+        return response()->json(['respuesta'=>true]);
+    }
+
+    public function stopRoom(Request $request){
+        DB::table('temas')->where('idtemas',$request->idtemas)->where('id_usuario',$this->user['id_usuario'])->update(['estado'=>'CERRADO']);
+        return response()->json(['respuesta'=>true]);
+    }
+    public function pausaRoom(Request $request){
+        DB::table('temas')->where('idtemas',$request->idtemas)->where('id_usuario',$this->user['id_usuario'])->update(['estado'=>'PAUSA']);
+        return response()->json(['respuesta'=>true]);
+    }
+
+    public function deleteRoom(Request $request){
+        foreach ($request->rooms as $key => $value) {
+            DB::table('temas')->where('idtemas',$value['idtemas'])->where('id_usuario',$this->user['id_usuario'])->delete();
+        }
+        return response()->json(['respuesta'=>true]);
+    }
 }

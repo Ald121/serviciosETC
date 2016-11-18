@@ -12,9 +12,9 @@ return [
      |
      */
     'supportsCredentials' => false,
-    'allowedOrigins' => ['*'],
+    'allowedOrigins' => ['http://innovaservineg.com/'],
     'allowedHeaders' => ['*'],
-    'allowedMethods' => ['*'],
+    'allowedMethods' => ['POST','GET'],
     'exposedHeaders' => [],
     'maxAge' => 0,
     'hosts' => [],

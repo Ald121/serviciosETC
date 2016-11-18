@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'cors'], function(){
-	Route::post('Login','loginController@Acceso');
+	Route::get('Login','loginController@Acceso');
 
 	Route::group(['middleware' => ['jwt.auth']], function ()
         {
@@ -26,7 +26,10 @@ Route::group(['middleware' => 'cors'], function(){
 		Route::post('addAmigo','usuariosController@addAmigo');
 		Route::post('getRoomsCliente','roomsController@getRoomsCliente');
 		Route::post('getEstadoRoom','roomsController@getEstadoRoom');
-		
+		Route::post('startRoom','roomsController@startRoom');
+		Route::post('pausaRoom','roomsController@pausaRoom');
+		Route::post('stopRoom','roomsController@stopRoom');
+		Route::post('deleteRoom','roomsController@deleteRoom');
 		});
 });
 

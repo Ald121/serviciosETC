@@ -37,6 +37,14 @@ class usuariosController extends Controller
     	return response()->json(['respuesta'=>$usuarios]);
     }
 
+    // public function deleteAmigo(Request $request){
+    //     foreach ($request->rooms as $key => $value) {
+    //         DB::table('usuarios')->where('id_usuario',$value['id_usuario'])->where('id_usuario',$this->user['id_usuario'])->delete();
+    //     }
+    //     return response()->json(['respuesta'=>true]);
+    // }
+    
+
     public function addAmigo(Request $request){
 
         if ($request->has('fecha_nac')) {
