@@ -25,7 +25,7 @@ class usuariosController extends Controller
         // Modelos
         $this->usuarios=new User(); 
         // Almacenamiento
-        // $this->pathLocal  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
+        $this->pathLocal  = Storage::disk('local')->getDriver()->getAdapter()->getPathPrefix();
 	}
 
     public function getAmigos(Request $request){
@@ -34,7 +34,8 @@ class usuariosController extends Controller
 
     	$usuarios=$this->usuarios->where('id_usuario','!=',$this->user['id_usuario'])->get();
         foreach ($usuarios as $key => $value) {
-            if (File::exists($value['foto'])) {
+            $imgarray=explode('/', $value['foto']);
+            if (File::exists($this->pathLocal.'/perfiles/'.$imgarray[3])) {
                     $usuarios[$key]['foto']=$value['foto'];
                 }else{
                     $usuarios[$key]['foto']='storage/app/perfiles/avatar-default.png';
