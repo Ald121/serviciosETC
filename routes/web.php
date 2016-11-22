@@ -16,7 +16,8 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'cors'], function(){
-	Route::get('Login','loginController@Acceso');
+	Route::post('Login','loginController@Acceso');
+	Route::post('Registro','loginController@Registro');
 
 	Route::group(['middleware' => ['jwt.auth']], function ()
         {

@@ -33,6 +33,14 @@ class usuariosController extends Controller
    		$limit = $request->limit;
 
     	$usuarios=$this->usuarios->where('id_usuario','!=',$this->user['id_usuario'])->get();
+        foreach ($usuarios as $key => $value) {
+            if (File::exists($value['foto'])) {
+                    $usuarios[$key]['foto']=$value['foto'];
+                }else{
+                    $usuarios[$key]['foto']='storage/app/perfiles/avatar-default.png';
+                }
+        }
+
     	$usuarios=$this->funciones->paginarDatos($usuarios,$currentPage,$limit);
     	return response()->json(['respuesta'=>$usuarios]);
     }
@@ -71,7 +79,7 @@ class usuariosController extends Controller
             'apellidos'=>$request->input('apellidos'),
             'edad'=>$edad,
             'usuario'=>$request->input('user'),
-            'contrasena'=>$request->input('pass'),
+            'contrasena'=>bcrypt($request->input('pass')),
             'fecha_registro'=>Carbon::now()->toDateString(),
             'estado'=>'ACTIVO',
             'email'=>$request->input('email'),
