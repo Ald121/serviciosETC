@@ -16,21 +16,21 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => 'cors'], function(){
-	Route::post('Login','loginController@Acceso');
-	Route::post('Registro','loginController@Registro');
+	Route::get('Login','loginController@Acceso');
+	Route::get('Registro','loginController@Registro');
 
 	Route::group(['middleware' => ['jwt.auth']], function ()
         {
-		Route::post('getRooms','roomsController@getRooms');
-		Route::post('getAmigos','usuariosController@getAmigos');
-		Route::post('addRoom','roomsController@addRoom');
-		Route::post('addAmigo','usuariosController@addAmigo');
-		Route::post('getRoomsCliente','roomsController@getRoomsCliente');
-		Route::post('getEstadoRoom','roomsController@getEstadoRoom');
-		Route::post('startRoom','roomsController@startRoom');
-		Route::post('pausaRoom','roomsController@pausaRoom');
-		Route::post('stopRoom','roomsController@stopRoom');
-		Route::post('deleteRoom','roomsController@deleteRoom');
+		Route::get('getRooms','roomsController@getRooms');
+		Route::get('getAmigos','usuariosController@getAmigos');
+		Route::get('addRoom','roomsController@addRoom');
+		Route::get('addAmigo','usuariosController@addAmigo');
+		Route::get('getRoomsCliente','roomsController@getRoomsCliente');
+		Route::get('getEstadoRoom','roomsController@getEstadoRoom');
+		Route::get('startRoom','roomsController@startRoom');
+		Route::get('pausaRoom','roomsController@pausaRoom');
+		Route::get('stopRoom','roomsController@stopRoom');
+		Route::get('deleteRoom','roomsController@deleteRoom');
 		});
 });
 

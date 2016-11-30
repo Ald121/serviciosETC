@@ -9,7 +9,7 @@
 		"password": "innova1servi1neg1.",
 		"path": "/public_html/serviciosETC/",
 
-		"upload_on_save": false, // set *false* if you do not want to upload on save!
+		"upload_on_save": true, // set *false* if you do not want to upload on save!
 
 		 "port": 9921,
 		// "tls": false,

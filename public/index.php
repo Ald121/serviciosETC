@@ -1,4 +1,8 @@
 <?php
+// header('Access-Control-Allow-Origin: http://etc.innovaservineg.com');
+// header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+// header('Access-Control-Allow-Headers: Authorization');
+// header('Access-Control-Allow-Credentials: true');
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

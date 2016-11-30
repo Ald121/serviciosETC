@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -72,7 +71,7 @@ class usuariosController extends Controller
         Storage::put('/perfiles/'.$id_img.'.'.$extension,  File::get($file));
         $foto="storage/app/perfiles/".$id_img.'.'.$extension;
         }else{
-            $foto="storage/app/avatar-default.png";
+            $foto="storage/app/perfiles/avatar-default.png";
         }
      
         $save=DB::table('usuarios')->insert(

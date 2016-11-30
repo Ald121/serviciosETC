@@ -37,10 +37,15 @@ class roomsController extends Controller
         $cuerpo=($request->has('cuerpo')) ? $request->input('cuerpo'):"A continuación se detallan los datos para ingresar a la video conferencia";
         DB::table('temas')->insert(['nombre_tema' => $request->input('nombre_tema'), 'fecha' => Carbon::now()->toDateString(), 'hora' => Carbon::now()->format('H:i'), 'estado' =>'ENESPERA','saludo'=>$saludo,'cuerpo'=>$cuerpo,'id_usuario'=>$this->user['id_usuario'],'hash'=>$request->hash]);
         $last_tema=DB::table('temas')->select('idtemas')->orderBy('idtemas','DESC')->first();
-        foreach ($request->invitados as $key => $value) {
+        $invitados=explode(',', $request->invitados);
+        foreach ($invitados as $key => $value) {
+            $invitados[$key]=str_replace(';', ',', $value);
+            $invitados[$key]=json_decode($invitados[$key]);
+        }
+        foreach ($invitados as $key => $value) {
             $clave_sala=$this->funciones->generarPass();
-            DB::table('login_sala')->insert(['pass_user' => $clave_sala, 'id_usuario' => $value['id_usuario'],'idtemas'=>$last_tema->idtemas]);
-            $data=['correo'=>$value['email'],'nombre_user'=>$value['nombres'].' '.$value['apellidos'],'saludo'=>$saludo,'cuerpo'=>$cuerpo,'pass_sala'=>$clave_sala,'tema'=>$request->input('nombre_tema')];
+            DB::table('login_sala')->insert(['pass_user' => $clave_sala, 'id_usuario' => $value->id_usuario,'idtemas'=>$last_tema->idtemas]);
+            $data=['correo'=>$value->email,'nombre_user'=>$value->nombres.' '.$value->apellidos,'saludo'=>$saludo,'cuerpo'=>$cuerpo,'pass_sala'=>$clave_sala,'tema'=>$request->input('nombre_tema')];
            $this->enviar_credenciales_sala($data);
         }
         return response()->json(['respuesta'=>true]);
@@ -101,9 +106,10 @@ class roomsController extends Controller
     }
 
     public function deleteRoom(Request $request){
-        foreach ($request->rooms as $key => $value) {
-            DB::table('temas')->where('idtemas',$value['idtemas'])->where('id_usuario',$this->user['id_usuario'])->delete();
+        $rooms=explode(',', $request->rooms);
+        foreach ($rooms as $key => $value) {
+            DB::table('temas')->where('idtemas',$value)->where('id_usuario',$this->user['id_usuario'])->delete();
         }
-        return response()->json(['respuesta'=>true]);
+        return response()->json(['respuesta'=>$rooms]);
     }
 }

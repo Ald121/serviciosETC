@@ -149,6 +149,7 @@ return [
     */
 
     'domain' => env('SESSION_DOMAIN', null),
+       // 'domain' => 'innovaservineg.com',
 
     /*
     |--------------------------------------------------------------------------
